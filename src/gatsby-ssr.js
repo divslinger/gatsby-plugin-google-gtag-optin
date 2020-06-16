@@ -1,6 +1,8 @@
 import React from "react"
 import { Minimatch } from "minimatch"
 
+import { GTAG_OPTIN_KEY } from "./index"
+
 exports.onRenderBody = (
   { setHeadComponents, setPostBodyComponents },
   pluginOptions
@@ -19,6 +21,8 @@ exports.onRenderBody = (
 
   const gtagConfig = pluginOptions.gtagConfig || {}
   const pluginConfig = pluginOptions.pluginConfig || {}
+
+  const OPTIN_KEY = pluginConfig.optinKey || GTAG_OPTIN_KEY
 
   // Prevent duplicate or excluded pageview events being emitted on initial load of page by the `config` command
   // https://developers.google.com/analytics/devguides/collection/gtagjs/#disable_pageview_tracking
@@ -76,11 +80,21 @@ exports.onRenderBody = (
       }
       `
 
+  const loadFunction = () => `
+      function loadGtag() {
+        const gtagScript = document.createElement("script")
+        gtagScript.type = 'text/javascript'
+        gtagScript.async = true
+        gtagScript.src = "https://www.googletagmanager.com/gtag/js?id=${firstTrackingId}"
+        const tag = document.getElementsByTagName('script')[0];
+        tag.parentNode.insertBefore(gtagScript, tag)
+      }
+      if (localStorage.getItem("${OPTIN_KEY}") === "true") window.loadGtag()`
+
   return setComponents([
     <script
       key={`gatsby-plugin-google-gtag`}
-      async
-      src={`https://www.googletagmanager.com/gtag/js?id=${firstTrackingId}`}
+      dangerouslySetInnerHTML={{ __html: loadFunction() }}
     />,
     <script
       key={`gatsby-plugin-google-gtag-config`}

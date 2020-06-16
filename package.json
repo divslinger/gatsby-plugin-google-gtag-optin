@@ -1,37 +1,48 @@
 {
-  "name": "gatsby-plugin-google-gtag",
+  "name": "gatsby-plugin-google-gtag-optin",
   "description": "Gatsby plugin to add google gtag onto a site",
-  "version": "2.1.4",
-  "author": "Tyler Buchea <tyler@buchea.com>",
+  "version": "2.1.0",
+  "author": "Oskar Oldorf <oskar@oldorf.net>",
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://github.com/divslinger/gatsby-plugin-google-gtag-optin/issues"
   },
   "dependencies": {
     "@babel/runtime": "^7.10.2",
-    "minimatch": "^3.0.4"
+    "minimatch": "^3.0.4",
+    "prop-types": "^15.7.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.1",
     "@babel/core": "^7.10.2",
     "babel-preset-gatsby-package": "^0.4.4",
-    "cross-env": "^5.2.1"
+    "cross-env": "^5.2.1",
+    "prettier": "^2.0.5"
   },
-  "homepage": "https://github.com/gatsbyjs/gatsby/tree/master/packages/gatsby-plugin-google-gtag#readme",
+  "homepage": "https://github.com/divslinger/gatsby-plugin-google-gtag-optin",
   "keywords": [
     "gatsby",
     "gatsby-plugin",
     "google gtag",
-    "google global site tag"
+    "google global site tag",
+    "cookie",
+    "consent",
+    "optin",
+    "gdpr",
+    "gtag",
+    "analytics",
+    "google"
   ],
   "license": "MIT",
+  "files": [
+    "gatsby-*.js*"
+  ],
   "main": "index.js",
   "peerDependencies": {
     "gatsby": "^2.0.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby.git",
-    "directory": "packages/gatsby-plugin-google-gtag"
+    "url": "https://github.com/divslinger/gatsby-plugin-google-gtag-optin.git"
   },
   "scripts": {
     "build": "babel src --out-dir . --ignore \"**/__tests__\"",

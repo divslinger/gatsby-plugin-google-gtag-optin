@@ -1,4 +1,23 @@
-# gatsby-plugin-google-gtag
+# [gatsby-plugin-google-gtag-optin](https://www.npmjs.com/package/gatsby-plugin-google-gtag-optin)
+
+This is a fork of the official Gatsby plugin [gatsby-plugin-google-gtag](https://www.gatsbyjs.org/packages/gatsby-plugin-google-gtag/). It's supposed to be used as a drop in replacement.
+
+It functions the same but **ONLY** after the user has consented. You can signal consent by setting a localStorage optinKey (default is `gtag_optin`) to `true` and calling `window.loadGtag()` to immediately load the Google Global Site Tag. If you set the key in localStorage you don't have to call `window.loadGtag()` on subsequent visits.
+
+**Example:**
+
+```js
+import { GTAG_OPTIN_KEY } from "gatsby-plugin-google-gtag-optin" // Or use your own if you changed it in the config
+
+const consent = () => {
+  localStorage.setItem(GTAG_OPTIN_KEY, true)
+  if (typeof window.loadGtag == "function") {
+    window.loadGtag()
+  }
+}
+```
+
+---
 
 Easily add Google Global Site Tag to your Gatsby site.
 
@@ -6,9 +25,9 @@ Easily add Google Global Site Tag to your Gatsby site.
 
 Global site tag (gtag.js) is meant to combine multiple Google tagging systems and can replace older ones such as [analytics.js](https://developers.google.com/analytics/devguides/collection/analyticsjs/) ([gatsby-plugin-google-analytics](https://www.gatsbyjs.org/packages/gatsby-plugin-google-analytics/)).
 
-For more general information on gtag you can read Google's official documentation on the subject: https://developers.google.com/gtagjs/.
+For more general information on gtag you can read Google's official documentation on the subject: <https://developers.google.com/gtagjs/.>
 
-If you're migrating from analytics.js (gatsby-plugin-google-analytics) you can read about the subtle API differences in more depth at: https://developers.google.com/analytics/devguides/collection/gtagjs/migration.
+If you're migrating from analytics.js (gatsby-plugin-google-analytics) you can read about the subtle API differences in more depth at: <https://developers.google.com/analytics/devguides/collection/gtagjs/migration.>
 
 NOTE: This plugin only works in production mode! To test your Global Site Tag is installed and firing events correctly run: `gatsby build && gatsby serve.`
 
@@ -46,6 +65,8 @@ module.exports = {
           respectDNT: true,
           // Avoids sending pageview hits from custom paths
           exclude: ["/preview/**", "/do-not-track/me/too/"],
+          // localStorage key that has to be set to true for plugin to load
+          optinKey: "gtag_optin", // default
         },
       },
     },
