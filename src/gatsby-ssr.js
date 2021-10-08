@@ -92,8 +92,7 @@ exports.onRenderBody = (
   return setComponents([
     <script
       key={`gatsby-plugin-google-gtag`}
-      async
-      src={`https://www.googletagmanager.com/gtag/js?id=${firstTrackingId}`}
+      dangerouslySetInnerHTML={{ __html: loadFunction() }}
     />,
     <script
       key={`gatsby-plugin-google-gtag-config`}
