@@ -1,12 +1,13 @@
-import React from "react";
-import { Minimatch } from "minimatch";
+import React from "react"
+import { Minimatch } from "minimatch"
+import { GTAG_OPTIN_KEY } from "./index"
 
 exports.onRenderBody = (
   { setHeadComponents, setPostBodyComponents },
   pluginOptions
 ) => {
   if (process.env.NODE_ENV !== `production` && process.env.NODE_ENV !== `test`)
-    return null;
+    return null
 
   // Lighthouse recommends pre-connecting to google tag manager
   setHeadComponents([
@@ -20,34 +21,34 @@ exports.onRenderBody = (
       key="dns-prefetch-google-gtag"
       href="https://www.googletagmanager.com"
     />,
-  ]);
+  ])
 
-  const gtagConfig = pluginOptions.gtagConfig || {};
-  const pluginConfig = pluginOptions.pluginConfig || {};
+  const gtagConfig = pluginOptions.gtagConfig || {}
+  const pluginConfig = pluginOptions.pluginConfig || {}
 
-  const OPTIN_KEY = pluginConfig.optinKey || GTAG_OPTIN_KEY;
+  const OPTIN_KEY = pluginConfig.optinKey || GTAG_OPTIN_KEY
 
   // Prevent duplicate or excluded pageview events being emitted on initial load of page by the `config` command
   // https://developers.google.com/analytics/devguides/collection/gtagjs/#disable_pageview_tracking
 
-  gtagConfig.send_page_view = false;
+  gtagConfig.send_page_view = false
 
   const firstTrackingId =
     pluginOptions.trackingIds && pluginOptions.trackingIds.length
       ? pluginOptions.trackingIds[0]
-      : ``;
+      : ``
 
-  const excludeGtagPaths = [];
+  const excludeGtagPaths = []
   if (typeof pluginConfig.exclude !== `undefined`) {
-    pluginConfig.exclude.map((exclude) => {
-      const mm = new Minimatch(exclude);
-      excludeGtagPaths.push(mm.makeRe());
-    });
+    pluginConfig.exclude.map(exclude => {
+      const mm = new Minimatch(exclude)
+      excludeGtagPaths.push(mm.makeRe())
+    })
   }
 
   const setComponents = pluginConfig.head
     ? setHeadComponents
-    : setPostBodyComponents;
+    : setPostBodyComponents
 
   const renderHtml = () => `
       ${
@@ -71,12 +72,12 @@ exports.onRenderBody = (
         gtag('js', new Date());
         ${pluginOptions.trackingIds
           .map(
-            (trackingId) =>
+            trackingId =>
               `gtag('config', '${trackingId}', ${JSON.stringify(gtagConfig)});`
           )
           .join(``)}
       }
-      `;
+      `
 
   const loadFunction = () => `
       function loadGtag() {
@@ -87,7 +88,7 @@ exports.onRenderBody = (
         const tag = document.getElementsByTagName('script')[0];
         tag.parentNode.insertBefore(gtagScript, tag)
       }
-      if (localStorage.getItem("${OPTIN_KEY}") === "true") window.loadGtag()`;
+      if (localStorage.getItem("${OPTIN_KEY}") === "true") window.loadGtag()`
 
   return setComponents([
     <script
@@ -96,7 +97,7 @@ exports.onRenderBody = (
     />,
     <script
       key={`gatsby-plugin-google-gtag-config`}
-      dangerouslySetInnerHTML={{ __html: loadFunction() }}
+      dangerouslySetInnerHTML={{ __html: renderHtml() }}
     />,
-  ]);
-};
+  ])
+}

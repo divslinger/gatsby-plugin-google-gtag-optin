@@ -9,14 +9,19 @@
   "dependencies": {
     "@babel/runtime": "^7.15.4",
     "minimatch": "^3.0.4",
-    "prop-types": "^15.7.2"
+    "prop-types": "^15.7.2",
+    "react": "16.9.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.15.4",
     "@babel/core": "^7.15.5",
     "babel-preset-gatsby-package": "^2.0.0-zz-next.1",
     "cross-env": "^7.0.3",
-    "prettier": "^2.0.5"
+    "eslint": "^7.32.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.26.1",
+    "jest": "^27.2.4",
+    "prettier": "^2.4.1"
   },
   "homepage": "https://github.com/divslinger/gatsby-plugin-google-gtag-optin",
   "keywords": [
@@ -49,7 +54,10 @@
   "scripts": {
     "build": "babel src --out-dir . --ignore \"**/__tests__\"",
     "prepare": "cross-env NODE_ENV=production npm run build",
-    "watch": "babel -w src --out-dir . --ignore \"**/__tests__\""
+    "watch": "babel -w src --out-dir . --ignore \"**/__tests__\"",
+    "prettier": "prettier --write **/*.js",
+    "lint": "eslint --ext=.js  .",
+    "test": "jest"
   },
   "engines": {
     "node": ">=14.15.0"
