@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-const GTAG_OPTIN_KEY = "gtag_optin"
+const GTAG_OPTIN_KEY = `gtag_optin`
 
 const OutboundLink = React.forwardRef(({ children, ...props }, ref) => (
   <a
